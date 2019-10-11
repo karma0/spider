@@ -3,9 +3,9 @@ import brukva.adisp
 import logging
 import settings
 import simplejson as json
-import urlparse
+import urllib.parse
 import tasks
-import cPickle as pickle
+import pickle as pickle
 import zlib
 
 class Handler(tornado.web.RequestHandler):
@@ -28,7 +28,7 @@ class Capture(Handler):
         data = json.loads(self.request.body)
 
         # parse url and get site
-        parts = urlparse.urlparse(data['url'])
+        parts = urllib.parse.urlparse(data['url'])
         assert parts.scheme in ['http', 'https']
         site = '%s://%s' % (parts.scheme.lower(), parts.netloc.lower())
 
@@ -75,7 +75,7 @@ class Site(Handler):
         url = self.get_argument('url')
 
         # parse url and get site
-        parts = urlparse.urlparse(url)
+        parts = urllib.parse.urlparse(url)
         assert parts.scheme in ['http', 'https']
         site = '%s://%s' % (parts.scheme, parts.netloc)
 

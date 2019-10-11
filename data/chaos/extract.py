@@ -44,7 +44,7 @@ def main():
                 if title.startswith('Permanent Link') and href:
                     url = href
                     break
-        print '%d: %s' % (id, url)
+        print('%d: %s' % (id, url))
         #print url
         #shutil.copy(
         #    os.path.realpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'gold', '%d.txt' % id)),
@@ -56,7 +56,7 @@ def main():
             # continue
             if os.path.exists(os.path.realpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data', '%03d.json' % id))):
                 continue
-            print '[extractor] #%03d: %s' % (id, url)
+            print('[extractor] #%03d: %s' % (id, url))
             subprocess.call('cd "%(path)s" && phantomjs "%(extractor)s" "%(url)s" "%(label)03d" > "%(label)03d.log" 2>&1' % {
                 'path': os.path.realpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')),
                 'extractor': extractor,

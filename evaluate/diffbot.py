@@ -10,7 +10,7 @@ if lib_path not in sys.path:
 import utils
 import os
 import argparse
-import urllib, urllib2
+import urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse
 import simplejson as json
 
 def main(args):
@@ -25,8 +25,8 @@ def main(args):
         if not url:
             continue
 
-        print '[diffbot] #%03d: %s' % (id, url)
-        response = urllib2.urlopen('http://www.diffbot.com/api/article?' + urllib.urlencode({
+        print('[diffbot] #%03d: %s' % (id, url))
+        response = urllib.request.urlopen('http://www.diffbot.com/api/article?' + urllib.parse.urlencode({
             'url': url,
             'token': '4bc6e407da88dd8723c70a5297cdf7fb',
             'timeout': '60000',

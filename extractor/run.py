@@ -28,7 +28,7 @@ def main(args):
         if os.path.exists(os.path.join(path, '%03d.json' % id)):
             continue
 
-        print '[extractor] #%03d: %s' % (id, url)
+        print('[extractor] #%03d: %s' % (id, url))
         subprocess.call('cd "%(path)s" && phantomjs "%(extractor)s" "%(url)s" "%(label)03d" > "%(label)03d.log" 2>&1' % {
             'path': path,
             'extractor': extractor,

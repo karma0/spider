@@ -18,7 +18,7 @@ class TermFrequencyAnalyzer(object):
 
         # idf
         idf = dict()
-        for token, count in df.iteritems():
+        for token, count in df.items():
             idf[token] = math.log(float(len(documents)) / float(count))
 
         return idf

@@ -21,7 +21,7 @@ def main(args):
 
     for count in range(2, len(urls) + 1):
 
-        print '[learner] clustering with %d urls' % count
+        print('[learner] clustering with %d urls' % count)
 
         # load data
         data = [utils.load_data(path, id) for id, url in enumerate(urls)]

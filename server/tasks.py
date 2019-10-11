@@ -3,7 +3,7 @@ import settings
 import utils
 import clusterers
 import processors
-import cPickle as pickle
+import pickle as pickle
 import simplejson as json
 import zlib
 import hashlib
@@ -18,11 +18,11 @@ def learn(site):
         return
     settings.REDIS_SYNC.set('spider:site:%s:learned' % site, count)
 
-    print 'site = %s, count = %d' % (site, count)
+    print('site = %s, count = %d' % (site, count))
 
     # load data from redis
     data = settings.REDIS_SYNC.hgetall('spider:site:%s' % site)
-    data = [pickle.loads(zlib.decompress(data)) for data in data.values()]
+    data = [pickle.loads(zlib.decompress(data)) for data in list(data.values())]
 
     # process data
     processor = processors.Processor(data)
@@ -40,13 +40,13 @@ def learn(site):
     for cluster in clusters:
         if cluster['confidence'] < settings.CONFIDENCE and cluster['score'] < settings.SCORE:
             continue
-        for selector in cluster['selectors'].values():
+        for selector in list(cluster['selectors'].values()):
             if selector and selector[-1]['name'] != 'a':
                 selectors.append(selector)
 
-    selectors = ','.join(utils.consolidate_selectors(selectors).keys())
+    selectors = ','.join(list(utils.consolidate_selectors(selectors).keys()))
     settings.REDIS_SYNC.set('spider:site:%s:selectors' % site, selectors)
-    print 'site = %s, selectors = %s' % (site, selectors)
+    print('site = %s, selectors = %s' % (site, selectors))
 
     # for debugging purpose, write to file
     hash = hashlib.sha1(site).hexdigest()
@@ -58,4 +58,4 @@ def learn(site):
     path = os.path.join(path, 'clusters.json')
     with open(path, 'w') as f:
         f.write(json.dumps(clusters, indent=2, ensure_ascii=False).encode('utf8'))
-    print 'site = %s, file = %s' % (site, path)
+    print('site = %s, file = %s' % (site, path))

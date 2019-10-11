@@ -60,11 +60,11 @@ class Processor(object):
             # continuous features
             continuous_features.append([
                 process(page, text)
-                for key, process in self.CONTINUOUS_FEATURES.iteritems()
+                for key, process in self.CONTINUOUS_FEATURES.items()
             ])
 
             # discrete features
-            discrete_feature = dict(text['computed'].items())
+            discrete_feature = dict(list(text['computed'].items()))
             discrete_feature['path'] = ' > '.join(text['path'])
             discrete_features.append(discrete_feature)
 
@@ -103,8 +103,8 @@ class Processor(object):
 
             cluster['pages'][page['url']]['texts'].append(text)
 
-        best_cluster = max(clusters.values(), key=lambda x: x['score'])
-        for page in best_cluster['pages'].values():
+        best_cluster = max(list(clusters.values()), key=lambda x: x['score'])
+        for page in list(best_cluster['pages'].values()):
             for text in page['texts']:
                 text['label'] = 1
         #best_cluster['label'] = 1

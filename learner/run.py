@@ -10,7 +10,7 @@ if lib_path not in sys.path:
 import utils
 import clusterers
 import processors
-import simplejson as json
+import json
 import os
 import argparse
 
@@ -37,8 +37,8 @@ def main(args):
 
         # score
         clusters = processor.score(labels)
-        
-        with open(os.path.join(path, 'clusters.%03d.json' % count), 'w') as f:
+
+        with open(os.path.join(path, 'clusters.%03d.json' % count), 'wb') as f:
             f.write(json.dumps(clusters, indent=2, ensure_ascii=False).encode('utf8'))
 
 def parse_args():

@@ -8,6 +8,7 @@ import utils
 import re
 from sklearn import preprocessing
 
+
 class Processor(object):
 
     CONTINUOUS_FEATURES = {
@@ -56,11 +57,11 @@ class Processor(object):
         discrete_features = []
 
         for page, text in zip(self.pages, self.texts):
-        
+
             # continuous features
             continuous_features.append([
                 process(page, text)
-                for key, process in self.CONTINUOUS_FEATURES.items()
+                for key, process in list(self.CONTINUOUS_FEATURES.items())
             ])
 
             # discrete features
@@ -192,7 +193,6 @@ class Processor(object):
 
         #return clusters, np.hstack([continuous_features, discrete_features]).astype(np.float32), labels.astype(np.float32)
 
-    """
     def score(self, labels):
 
         clusters = collections.defaultdict(lambda: dict(
@@ -216,13 +216,13 @@ class Processor(object):
             cluster['pages'][page['url']]['tokens'].append(text['tokens'])
             cluster['pages'][page['url']]['text'] += text['text']
 
-        for cluster in clusters.values():
+        for cluster in list(clusters.values()):
 
             # count non zero pages
             count = 0
 
             # coherence score
-            for page in cluster['pages'].values():
+            for page in list(cluster['pages'].values()):
                 coherent_score = 0.0
                 for tokens1, tokens2 in itertools.product(page['tokens'], repeat=2):
                     if tokens1 is not tokens2:
@@ -249,11 +249,13 @@ class Processor(object):
             cluster['selectors'] = utils.consolidate_selectors(cluster['selectors'])
 
         # get rid of the clusters with score 0
-        for label in clusters.keys():
-            if clusters[label]['score'] <= 0 or clusters[label]['confidence'] <= 0:
-                del clusters[label]
+        to_rem = []
+        for label in list(clusters.keys()):
+            if (clusters[label]['score'] <= 0 or
+                    clusters[label]['confidence'] <= 0):
+                to_rem.append(label)
 
-        return clusters.values()
-        """
+        for label in to_rem:
+            del clusters[label]
 
-
+        return list(clusters.values())

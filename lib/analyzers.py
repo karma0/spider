@@ -1,7 +1,8 @@
 import collections
 import math
 import numpy as np
-import mlpy
+#import mlpy
+
 
 class TermFrequencyAnalyzer(object):
 
@@ -54,10 +55,11 @@ class LongestAnalyzer(object):
 
         a = np.array(list(a), dtype='U1').view(np.uint32)
         b = np.array(list(b), dtype='U1').view(np.uint32)
-        length, path = mlpy.lcs_std(a, b)
-        return length
-        
-    def lcs(self, a, b):
+        #length, path = mlpy.lcs_std(a, b)
+        #return length
+        return self.lcs(a, b)
+
+    def _lcs(self, a, b):
         a = a[:200]
         b = b[:200]
         if (len(a) < len(b)):
@@ -79,3 +81,16 @@ class LongestAnalyzer(object):
                     arr[curIdx][j] = max(arr[curIdx][j - 1], arr[prevIdx][j])
 
         return arr[M % 2][N]
+
+    def lcs(self, x, y):
+        m = len(x)
+        n = len(y)
+        # An (m+1) times (n+1) matrix
+        c = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                if x[i-1] == y[j-1]:
+                    c[i][j] = c[i-1][j-1] + 1
+                else:
+                    c[i][j] = max(c[i][j-1], c[i-1][j])
+        return c

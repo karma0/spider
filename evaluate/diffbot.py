@@ -11,7 +11,7 @@ import utils
 import os
 import argparse
 import urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse
-import simplejson as json
+import json
 
 def main(args):
 
@@ -34,7 +34,7 @@ def main(args):
 
         data.append(json.loads(response.read()))
 
-    with open(os.path.join(path, 'diffbot.json'), 'w') as f:
+    with open(os.path.join(path, 'diffbot.json'), 'wb') as f:
         f.write(json.dumps(data, indent=2, ensure_ascii=False).encode('utf8'))
 
 def parse_args():

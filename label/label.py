@@ -17,9 +17,11 @@ import clusterers
 import collections
 import numpy as np
 from sklearn.feature_extraction import DictVectorizer
-from sklearn import svm, preprocessing, cross_validation
+from sklearn import svm, preprocessing
+from sklearn.model_selection import cross_validate
 from sklearn.metrics import precision_recall_curve, auc, classification_report, precision_recall_fscore_support
 import random
+
 
 def main(args):
 
@@ -45,7 +47,7 @@ def main(args):
     for id, url in enumerate(urls):
         if not url.strip():
             continue
-        
+
         host = url.split('/', 3)[2]
         #if domains[host] > 2:
         #    continue
@@ -154,7 +156,7 @@ def main(args):
     f1scores = []
     supports = []
 
-    rs = cross_validation.KFold(len(labels), n_folds=4, shuffle=False, random_state=0)
+    rs = cross_validate.KFold(len(labels), n_folds=4, shuffle=False, random_state=0)
     for train_index, test_index in rs:
         print('training size = %d, testing size = %d' % (len(train_index), len(test_index)))
 

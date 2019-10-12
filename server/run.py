@@ -11,6 +11,6 @@ application = tornado.web.Application([
     (r'/stats', 'handlers.Stats'),
 ])
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
     application.listen(settings.PORT)
     tornado.ioloop.IOLoop.instance().start()
